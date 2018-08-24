@@ -12,7 +12,7 @@
     transition: all 0.4s;    
 }
 
-@media (min-width: 500px) { /*above 500px make it hidden */
+@media (min-width: 501px) { /*above 501px make it hidden */
     .SideBar {
         display: none;
     }

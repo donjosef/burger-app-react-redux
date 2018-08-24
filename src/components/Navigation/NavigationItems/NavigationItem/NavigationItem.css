@@ -23,3 +23,22 @@
    background-color: #8f5c2c;
    border-bottom: 4px solid #4084c8;
 }
+
+@media (max-width: 500px) {
+    .NavigationItem {
+        margin-top: 20px;
+        display: block;
+    }
+    
+    .NavigationItem a {
+        border-bottom: none;
+    }
+    
+    .NavigationItem a:hover,
+    .NavigationItem a:active,
+    .NavigationItem a.Active {
+        background-color: #CF8F2F;
+        border-bottom: none;
+        color: 
+    }
+}

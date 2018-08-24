@@ -12,3 +12,9 @@
 .Toolbar nav {
     height: 100%;
 }
+
+@media (max-width: 500px) {
+    .Toolbar {
+        display: none;
+    }
+} /*below 500px make it hidden */
