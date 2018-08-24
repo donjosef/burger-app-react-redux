@@ -81,6 +81,7 @@ continuePurchaseHandler = () => {
                <Backdrop show={this.state.showOrderSummary} hideModal={this.hideOrderSummary}/>
                <Modal show={this.state.showOrderSummary}>
                     <OrderSummary 
+                        price={this.state.totalPrice}
                         ingredients={this.state.ingredients}
                         hideModal={this.hideOrderSummary}
                         continuePurchase={this.continuePurchaseHandler}/>
