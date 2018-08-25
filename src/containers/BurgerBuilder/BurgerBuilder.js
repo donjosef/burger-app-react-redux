@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Aux from '../../hoc/Auxiliary'
+import Aux from '../../hoc/Auxiliary/Auxiliary'
 import Burger from '../../components/Burger/Burger'
 import Controls from '../../components/Controls/Controls'
 import Modal from '../../components/Modal/Modal'
@@ -67,7 +67,7 @@ continuePurchaseHandler = () => {
 }
 
     render () {
-        console.log("render")
+        console.log("render of BurgerBuilder")
         return(
             <Aux>
                 <Burger ingredients={this.state.ingredients}/>

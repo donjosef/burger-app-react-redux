@@ -8,7 +8,7 @@ const burger = props => {
     const noIngredients = Object.values(ingredients).every(qty => qty === 0); //true or false
     let ingrComponents = Object.keys(ingredients).map(ingrKey => {
         
-        //Per ogni ingrKey ritorna un sub-array vuoto. Trasformo gli elementi di questo sub-array vuoto in Components. Avrò quindi una serie di sub-arrays con all'interno Components a seconda di quanto è lungo questo sub-array 
+        //Per ogni ingrKey ritorna un sub-array vuoto. Trasformo gli elementi di questo sub-array vuoto in Components. Avrò quindi una serie di sub-arrays con all'interno Components a seconda di quanto è lungo questo sub-array (determinato da Array(ingredients[ingrKey]))
         return [...Array(ingredients[ingrKey])].map((_, idx) => (
             <Ingredient key={ingrKey + idx} type={ingrKey}/>
         ));
