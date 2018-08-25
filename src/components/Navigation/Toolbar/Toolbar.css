@@ -9,12 +9,31 @@
     box-sizing: border-box;
 }
 
+.Toolbar button {
+    display: block;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.Toolbar button span {
+    display: block;
+    background-color: white;
+    height: 4px;
+    margin-bottom: 6px;
+    width: 50px;
+    border-radius: 3px;
+}
+
 .Toolbar nav {
     height: 100%;
 }
 
-@media (max-width: 500px) {
-    .Toolbar {
+@media (min-width: 501px) {
+    .Toolbar button {
         display: none;
     }
-} /*below 500px make it hidden */
+}
+

@@ -7,7 +7,7 @@
     box-shadow: 0px 1px 6px 2px #555;
     padding: 16px;
     left: 15%;
-    top: 30%;
+    top: 20%;
     box-sizing: border-box;
     transition: all .4s;
     border-radius: 5px;
@@ -15,7 +15,7 @@
 }
 
 .Offscreen {
-    transform: translateY(-100vh);
+    transform: translateY(-120vh);
     opacity: 0;
 }
 
@@ -24,4 +24,4 @@
         width: 500px;
         left: calc(50% - 250px);
     }
-}
+} /* Desktop */

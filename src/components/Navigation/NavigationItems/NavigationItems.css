@@ -1,4 +1,4 @@
-.NavigationItems {
+.Desktop {
     margin: 0;
     padding: 0;
     list-style: none;
@@ -7,9 +7,16 @@
     height: 100%;
 }
 
+
 @media (max-width: 500px) {
-    .NavigationItems {
+    .Desktop {
+        display: none;
+    }
+    
+    .Mobile {
         display: block;
+        margin: 0;
+        padding: 0;
     }
 
 }

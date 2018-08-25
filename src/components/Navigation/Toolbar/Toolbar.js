@@ -5,10 +5,14 @@ import NavigationItems from '../NavigationItems/NavigationItems'
 
 const toolbar = props => (
     <header className={classes.Toolbar}>
-        <div>Menu Button</div>
+        <button onClick={props.openSideBar}>
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
         <Logo />
         <nav>
-            <NavigationItems />
+            <NavigationItems type="Desktop"/>
         </nav>
     </header>
 )
