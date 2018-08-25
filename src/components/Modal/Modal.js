@@ -1,23 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
 import classes from './Modal.css'
 
-const modal = props => {
+class Modal extends Component {
     
-    let modalClasses = [];
-    if(props.show) {
-        modalClasses.push(classes.Show);
-    } else {
-        modalClasses.push(classes.Show, classes.Offscreen)
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextProps.show !== this.props.show;
+    } //improve performance. So for example if i click on more or less buttons, avoid to update the modal
+    
+    
+    render() {
+        let modalClasses = [];
+        if(this.props.show) {
+            modalClasses.push(classes.Show);
+        } else {
+            modalClasses.push(classes.Show, classes.Offscreen)
+        }
+    
+        return (
+            <div className={modalClasses.join(" ")}>
+                {this.props.children}
+            </div>
+        )
     }
     
-    return (
-        <div className={modalClasses.join(" ")}>
-            {props.children}
-        </div>
+} 
     
-    )
-    
-}
-
-
-export default modal;
+export default Modal;
