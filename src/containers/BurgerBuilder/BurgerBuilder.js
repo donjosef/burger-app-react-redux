@@ -4,7 +4,9 @@ import Burger from '../../components/Burger/Burger'
 import Controls from '../../components/Controls/Controls'
 import Modal from '../../components/Modal/Modal'
 import OrderSummary from '../../components/OrderSummary/OrderSummary'
-import Backdrop from '../../components/Backdrop/Backdrop'
+import Backdrop from '../../components/Backdrop/Backdrop';
+import axios from '../../axios-orders'; //from the instance
+import Spinner from '../../components/Spinner/Spinner'
 
 const INGREDIENTS_PRICES = {
     meat: 3,
@@ -13,7 +15,7 @@ const INGREDIENTS_PRICES = {
     bacon: 2
 };
 
-class BurgerBuilder extends Component { //purecomponent per evitare il render quando clicco nuovamente su showModal
+class BurgerBuilder extends Component { 
     state = {
         ingredients: {
             meat: 0,
@@ -22,7 +24,8 @@ class BurgerBuilder extends Component { //purecomponent per evitare il render qu
             bacon: 0
         },
         totalPrice: 0,
-        showOrderSummary: false
+        showOrderSummary: false,
+        loadingPurchase: false
         
     };
 
@@ -63,10 +66,51 @@ hideOrderSummary = () => {
 }
 
 continuePurchaseHandler = () => {
-    alert("U can continue!")
+    this.setState({loadingPurchase: true});
+    const order = {
+        ingredients: this.state.ingredients,
+        price: this.state.totalPrice,
+        customer: {
+            name: "Giuseppe",
+            address: {
+                street: "test-street",
+                zipCode: 74027,
+                country: "Italy"
+            },
+            email: "email@gmail.com"
+        },
+        deliveryMethod: "fastest"
+    };
+    
+    axios.post('/orders.json', order)
+        .then(response => {
+            this.setState({
+                loadingPurchase: false,
+                 showOrderSummary: false
+            });
+        
+        })
+        .catch(err => {
+            this.setState({
+                loadingPurchase: false,
+                showOrderSummary: false
+            });
+        
+        })//firebase uses a mongoDB like structure. We dont have tables, we have kind of json like nested structure. If we make a request to /orders, it will create a node and stores our orders beneath that node
 }
 
     render () {
+        let modalContent;
+        if(this.state.loadingPurchase) {
+            modalContent = <Spinner />
+        } else {
+            modalContent = <OrderSummary 
+                            price={this.state.totalPrice}
+                            ingredients={this.state.ingredients}
+                            hideModal={this.hideOrderSummary}
+                            continuePurchase={this.continuePurchaseHandler}/>
+        }
+        
         console.log("render of BurgerBuilder")
         return(
             <Aux>
@@ -79,13 +123,9 @@ continuePurchaseHandler = () => {
                     showModal={this.showOrderSummary}
                 />
                <Backdrop show={this.state.showOrderSummary} clicked={this.hideOrderSummary}/>
-               <Modal show={this.state.showOrderSummary}>
-                    <OrderSummary 
-                        price={this.state.totalPrice}
-                        ingredients={this.state.ingredients}
-                        hideModal={this.hideOrderSummary}
-                        continuePurchase={this.continuePurchaseHandler}/>
-               </Modal>
+                <Modal show={this.state.showOrderSummary}>
+                    {modalContent}
+                </Modal>
             </Aux>
         
         ) 
