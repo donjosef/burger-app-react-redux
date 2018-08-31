@@ -25,7 +25,8 @@ class BurgerBuilder extends Component {
         },
         totalPrice: 0,
         showOrderSummary: false,
-        loadingPurchase: false
+        loadingPurchase: false,
+        errorPurchase: false
         
     };
 
@@ -61,7 +62,8 @@ showOrderSummary = () => {
 
 hideOrderSummary = () => {
     this.setState({
-        showOrderSummary: false
+        showOrderSummary: false,
+        errorPurchase: false
     })
 }
 
@@ -86,14 +88,14 @@ continuePurchaseHandler = () => {
         .then(response => {
             this.setState({
                 loadingPurchase: false,
-                 showOrderSummary: false
+                showOrderSummary: false
             });
         
         })
         .catch(err => {
             this.setState({
                 loadingPurchase: false,
-                showOrderSummary: false
+                errorPurchase: err
             });
         
         })//firebase uses a mongoDB like structure. We dont have tables, we have kind of json like nested structure. If we make a request to /orders, it will create a node and stores our orders beneath that node
@@ -109,6 +111,9 @@ continuePurchaseHandler = () => {
                             ingredients={this.state.ingredients}
                             hideModal={this.hideOrderSummary}
                             continuePurchase={this.continuePurchaseHandler}/>
+        }
+        if(this.state.errorPurchase) {
+            modalContent = <p>Something went wrong {this.state.errorPurchase.message}</p>
         }
         
         console.log("render of BurgerBuilder")
