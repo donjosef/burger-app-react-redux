@@ -17,19 +17,27 @@ const INGREDIENTS_PRICES = {
 
 class BurgerBuilder extends Component { 
     state = {
-        ingredients: {
-            meat: 0,
-            cheese: 0,
-            salad: 0,
-            bacon: 0
-        },
+        ingredients: {},
         totalPrice: 0,
         showOrderSummary: false,
         loadingPurchase: false,
-        errorPurchase: false
+        errorPurchase: false,
+        errorIngredients: false
         
     };
 
+componentDidMount() {
+    axios.get('/ingredients.json')
+    .then(res => {
+        const ingredients = res.data;
+        this.setState({ ingredients });
+    })
+    .catch(err => {
+        this.setState({
+            errorIngredients: err
+        });
+    });
+}
 
 increaseHandler = (key) => {
     const ingredients = {...this.state.ingredients} //make a copy of ingredients
@@ -119,6 +127,11 @@ continuePurchaseHandler = () => {
         console.log("render of BurgerBuilder")
         return(
             <Aux>
+            {this.state.errorIngredients && (
+              <h1>
+                 Cannot load any ingredients: {this.state.errorIngredients.message.slice(this.state.errorIngredients.message.indexOf("status"))}
+              </h1>)
+            }
                 <Burger ingredients={this.state.ingredients}/>
                 <Controls 
                     price={this.state.totalPrice}
