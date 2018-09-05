@@ -75,9 +75,10 @@ hideOrderSummary = () => {
     })
 }
 
-continuePurchaseHandler = () => {
+continuePurchaseHandler = () => { //continue button of orderSummary
      const params = Object.entries(this.state.ingredients);
      const orderParams = []; //will be[bacon=0, cheese=1, ecc]
+     orderParams.push('price=' + this.state.totalPrice);
      for(let param of params) {
             orderParams.push(param.join("="));
      } 
@@ -86,39 +87,9 @@ continuePurchaseHandler = () => {
         search: "?" + orderParams.join("&") //passing query parameters to url
     });
     
-//    this.setState({loadingPurchase: true});
-//    const order = {
-//        ingredients: this.state.ingredients,
-//        price: this.state.totalPrice,
-//        customer: {
-//            name: "Giuseppe",
-//            address: {
-//                street: "test-street",
-//                zipCode: 74027,
-//                country: "Italy"
-//            },
-//            email: "email@gmail.com"
-//        },
-//        deliveryMethod: "fastest"
-//    };
-//    
-//    axios.post('/orders.json', order)
-//        .then(response => {
-//            this.setState({
-//                loadingPurchase: false,
-//                showOrderSummary: false
-//            });
-//        this.props.history.push('/checkout');
-//        
-//        })
-//        .catch(err => {
-//            this.setState({
-//                loadingPurchase: false,
-//                errorPurchase: err
-//            });
-//        
-//        })//firebase uses a mongoDB like structure. We dont have tables, we have kind of json like nested structure. If we make a request to /orders, it will create a node and stores our orders beneath that node
+
 }
+
 
     render () {
         let modalContent;
