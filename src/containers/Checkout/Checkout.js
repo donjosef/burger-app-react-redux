@@ -4,17 +4,23 @@ import ContactData from './ContactData/ContactData';
 import { Route } from 'react-router-dom';
 class Checkout extends Component {
     state = {
-        ingredients: {}
+        ingredients: {},
+        totalPrice: 0
     }
     
     componentDidMount() {
         const params = new URLSearchParams(this.props.location.search); //iterator. Extract the query params from url
         const ingredients = {};
+        let totalPrice = 0;
         for(let param of params) {
-          ingredients[param[0]] = Number(param[1]);
+            if(param[0] === "price") {
+                totalPrice = param[1];
+            } else {
+                ingredients[param[0]] = Number(param[1]);
+            }
         }
 
-        this.setState({ ingredients });
+        this.setState({ ingredients, totalPrice });
     }
     
     backToHomeHandler = () => {
@@ -35,7 +41,7 @@ class Checkout extends Component {
                 continueCheckout={this.continueCheckoutHandler}/>
               <Route 
                 path={this.props.match.url + '/contact-data'} 
-                component={ContactData} 
+                render={() => <ContactData ingredients={this.state.ingredients} totalPrice={this.state.totalPrice}/>} 
               />
             </div>
         );
