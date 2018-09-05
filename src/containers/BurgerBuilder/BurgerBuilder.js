@@ -76,37 +76,39 @@ hideOrderSummary = () => {
 }
 
 continuePurchaseHandler = () => {
-    this.setState({loadingPurchase: true});
-    const order = {
-        ingredients: this.state.ingredients,
-        price: this.state.totalPrice,
-        customer: {
-            name: "Giuseppe",
-            address: {
-                street: "test-street",
-                zipCode: 74027,
-                country: "Italy"
-            },
-            email: "email@gmail.com"
-        },
-        deliveryMethod: "fastest"
-    };
-    
-    axios.post('/orders.json', order)
-        .then(response => {
-            this.setState({
-                loadingPurchase: false,
-                showOrderSummary: false
-            });
-        
-        })
-        .catch(err => {
-            this.setState({
-                loadingPurchase: false,
-                errorPurchase: err
-            });
-        
-        })//firebase uses a mongoDB like structure. We dont have tables, we have kind of json like nested structure. If we make a request to /orders, it will create a node and stores our orders beneath that node
+    this.props.history.push('/my-orders');
+//    this.setState({loadingPurchase: true});
+//    const order = {
+//        ingredients: this.state.ingredients,
+//        price: this.state.totalPrice,
+//        customer: {
+//            name: "Giuseppe",
+//            address: {
+//                street: "test-street",
+//                zipCode: 74027,
+//                country: "Italy"
+//            },
+//            email: "email@gmail.com"
+//        },
+//        deliveryMethod: "fastest"
+//    };
+//    
+//    axios.post('/orders.json', order)
+//        .then(response => {
+//            this.setState({
+//                loadingPurchase: false,
+//                showOrderSummary: false
+//            });
+//        this.props.history.push('/my-orders');
+//        
+//        })
+//        .catch(err => {
+//            this.setState({
+//                loadingPurchase: false,
+//                errorPurchase: err
+//            });
+//        
+//        })//firebase uses a mongoDB like structure. We dont have tables, we have kind of json like nested structure. If we make a request to /orders, it will create a node and stores our orders beneath that node
 }
 
     render () {
