@@ -76,7 +76,16 @@ hideOrderSummary = () => {
 }
 
 continuePurchaseHandler = () => {
-    this.props.history.push('/my-orders');
+     const params = Object.entries(this.state.ingredients);
+     const orderParams = []; //will be[bacon=0, cheese=1, ecc]
+     for(let param of params) {
+            orderParams.push(param.join("="));
+     } 
+    this.props.history.push({
+        pathname: '/my-orders',
+        search: "?" + orderParams.join("&") //passing query parameters to url
+    });
+    
 //    this.setState({loadingPurchase: true});
 //    const order = {
 //        ingredients: this.state.ingredients,
