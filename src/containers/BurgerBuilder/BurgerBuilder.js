@@ -82,7 +82,7 @@ continuePurchaseHandler = () => {
             orderParams.push(param.join("="));
      } 
     this.props.history.push({
-        pathname: '/my-orders',
+        pathname: '/checkout',
         search: "?" + orderParams.join("&") //passing query parameters to url
     });
     
@@ -108,7 +108,7 @@ continuePurchaseHandler = () => {
 //                loadingPurchase: false,
 //                showOrderSummary: false
 //            });
-//        this.props.history.push('/my-orders');
+//        this.props.history.push('/checkout');
 //        
 //        })
 //        .catch(err => {
