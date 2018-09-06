@@ -13,8 +13,8 @@ const navigationItems = props => {
     
     return (
         <ul className={dynamicClasses.join(" ")}>
-            <NavigationItem active link="/">Burger Builder</NavigationItem>
-            <NavigationItem link="/">Checkout</NavigationItem>
+            <NavigationItem link="/">Burger Builder</NavigationItem>
+            <NavigationItem link="/orders">Orders</NavigationItem>
         </ul>
     )
     
