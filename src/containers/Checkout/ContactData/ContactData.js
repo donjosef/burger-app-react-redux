@@ -55,7 +55,8 @@ class ContactData extends Component {
             .then(response => {
                 this.setState({
                     loadingOrder: false,
-                });            
+                }); 
+                this.props.history.push('/'); //se vogliamo utilizzare history (e tutte le altre props di route) ma stiamo rendendo il component(in questo caso parlo di contactData) con "render" e non con "component" dobbiamo passare le props all interno della funzione utilizzata in render
             })
             .catch(err => {
                 this.setState({
