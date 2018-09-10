@@ -92,6 +92,7 @@ continuePurchaseHandler = () => { //continue button of orderSummary
 
 
     render () {
+        alert('alert from inside the [redux branch]')
         let modalContent;
         if(this.state.loadingPurchase) {
             modalContent = <Spinner />
