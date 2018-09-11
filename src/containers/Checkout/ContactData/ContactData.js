@@ -3,9 +3,10 @@ import Button from '../../../components/Button/Button'
 import Spinner from '../../../components/Spinner/Spinner'
 import classes from './ContactData.css'
 import axios from '../../../axios-orders'
+import {connect} from 'react-redux';
 
 class ContactData extends Component {
-    
+
     state = {
         name: '',
         email: '',
@@ -19,7 +20,7 @@ class ContactData extends Component {
     inputChangeHandler = (e) => {
         let address = {...this.state.address};
         switch(e.target.name) {
-            case "name": 
+            case "name":
                 this.setState({
                   name: e.target.value
               });
@@ -39,24 +40,24 @@ class ContactData extends Component {
         }
 
     }
-    
+
     orderingBurgerHandler = (e) => {
         e.preventDefault();
         const {loadingOrder, ...customer} = this.state;
         this.setState({loadingOrder: true});
         const order = {
-            ingredients: this.props.ingredients, //retrieved by props extracted by url params
-            price: this.props.totalPrice,//retrieved by props extracted by url params
+            ingredients: this.props.ings, //retrieved by redux store
+            price: this.props.price,//retrieved by reudx store
             customer
         };
-        
-        
+
+
         axios.post('/orders.json', order)
             .then(response => {
                 this.setState({
                     loadingOrder: false,
-                }); 
-                this.props.history.push('/'); //se vogliamo utilizzare history (e tutte le altre props di route) ma stiamo rendendo il component(in questo caso parlo di contactData) con "render" e non con "component" dobbiamo passare le props all interno della funzione utilizzata in render
+                });
+                this.props.history.push('/');
             })
             .catch(err => {
                 this.setState({
@@ -69,31 +70,31 @@ class ContactData extends Component {
     render() {
         let form = (
             <form>
-                <input 
-                    type="text" 
-                    name="name" 
+                <input
+                    type="text"
+                    name="name"
                     placeholder="Your Name"
                     value={this.state.name}
                     onChange={this.inputChangeHandler}/>
-                <input 
-                    type="email" 
-                    name="email" 
+                <input
+                    type="email"
+                    name="email"
                     placeholder="Your Email"
                     value={this.state.email}
                     onChange={this.inputChangeHandler}/>
-                <input 
-                    type="text" 
-                    name="street" 
+                <input
+                    type="text"
+                    name="street"
                     placeholder="Your Street"
                     value={this.state.address.street}
                     onChange={this.inputChangeHandler}
                     />
-                <input 
-                    type="text" 
-                    name="postal" 
+                <input
+                    type="text"
+                    name="postal"
                     placeholder="Your Postal Code"
                     value={this.state.address.postalCode}
-                    onChange={this.inputChangeHandler}git
+                    onChange={this.inputChangeHandler}
                 />
                 <Button type="SubmitOrder" clicked={this.orderingBurgerHandler}>ORDER</Button>
             </form>
@@ -110,4 +111,9 @@ class ContactData extends Component {
     }
 }
 
-export default ContactData;
+const mapStateToProps = state => ({
+  ings: state.ingredients.ingredients,
+  price: state.totalPrice.totalPrice
+});
+
+export default connect(mapStateToProps)(ContactData);
