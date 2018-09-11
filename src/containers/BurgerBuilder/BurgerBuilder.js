@@ -7,60 +7,29 @@ import OrderSummary from '../../components/OrderSummary/OrderSummary'
 import Backdrop from '../../components/Backdrop/Backdrop';
 import axios from '../../axios-orders'; //from the instance
 import Spinner from '../../components/Spinner/Spinner'
+import {connect} from 'react-redux';
 
-const INGREDIENTS_PRICES = {
-    meat: 3,
-    cheese: 1.5,
-    salad: 1,
-    bacon: 2
-};
-
-class BurgerBuilder extends Component { 
+class BurgerBuilder extends Component {
     state = {
-        ingredients: {},
-        totalPrice: 0,
         showOrderSummary: false,
         loadingPurchase: false,
         errorPurchase: false,
         errorIngredients: false
-        
     };
 
-componentDidMount() {
-    axios.get('/ingredients.json')
-    .then(res => {
-        const ingredients = res.data;
-        this.setState({ ingredients });
-    })
-    .catch(err => {
-        this.setState({
-            errorIngredients: err
-        });
-    });
-}
-
-increaseHandler = (key) => {
-    const ingredients = {...this.state.ingredients} //make a copy of ingredients
-    const partialPrice = INGREDIENTS_PRICES[key];
-    ingredients[key] += 1;
-    this.setState(prevState => ({ 
-        ingredients,
-        totalPrice: prevState.totalPrice += partialPrice
-    }));
-   
-}
-
-decreaseHandler = (key) => {
-   const ingredients = {...this.state.ingredients} //make a copy of ingredients
-   const partialPrice = INGREDIENTS_PRICES[key];
-   if(ingredients[key] > 0) {
-        ingredients[key] -= 1;
-        this.setState(prevState => ({
-            ingredients,
-            totalPrice: prevState.totalPrice -= partialPrice
-        })); 
-   }
-}
+// componentDidMount() {
+//     axios.get('/ingredients.json')
+//     .then(res => {
+//         const ingredients = res.data;
+//         console.log(ingredients)
+//         this.setState({ ingredients });
+//     })
+//     .catch(err => {
+//         this.setState({
+//             errorIngredients: err
+//         });
+//     });
+// }
 
 showOrderSummary = () => {
     this.setState({
@@ -81,32 +50,31 @@ continuePurchaseHandler = () => { //continue button of orderSummary
      orderParams.push('price=' + this.state.totalPrice);
      for(let param of params) {
             orderParams.push(param.join("="));
-     } 
+     }
     this.props.history.push({
         pathname: '/checkout',
         search: "?" + orderParams.join("&") //passing query parameters to url
     });
-    
+
 
 }
 
 
     render () {
-        alert('alert from inside the [redux branch]')
         let modalContent;
         if(this.state.loadingPurchase) {
             modalContent = <Spinner />
         } else {
-            modalContent = <OrderSummary 
-                            price={this.state.totalPrice}
-                            ingredients={this.state.ingredients}
+            modalContent = <OrderSummary
+                            price={this.props.totalPrice}
+                            ingredients={this.props.ingredients}
                             hideModal={this.hideOrderSummary}
                             continuePurchase={this.continuePurchaseHandler}/>
         }
         if(this.state.errorPurchase) {
             modalContent = <p>Something went wrong {this.state.errorPurchase.message}</p>
         }
-        
+
         console.log("render of BurgerBuilder")
         return(
             <Aux>
@@ -115,12 +83,12 @@ continuePurchaseHandler = () => { //continue button of orderSummary
                  Cannot load any ingredients: {this.state.errorIngredients.message.slice(this.state.errorIngredients.message.indexOf("status"))}
               </h1>)
             }
-                <Burger ingredients={this.state.ingredients}/>
-                <Controls 
-                    price={this.state.totalPrice}
-                    ingredients={this.state.ingredients}
-                    increase={this.increaseHandler}
-                    decrease={this.decreaseHandler}
+                <Burger ingredients={this.props.ingredients}/>
+                <Controls
+                    price={this.props.totalPrice}
+                    ingredients={this.props.ingredients}
+                    increase={this.props.increaseHandler}
+                    decrease={this.props.decreaseHandler}
                     showModal={this.showOrderSummary}
                 />
                <Backdrop show={this.state.showOrderSummary} clicked={this.hideOrderSummary}/>
@@ -128,10 +96,23 @@ continuePurchaseHandler = () => { //continue button of orderSummary
                     {modalContent}
                 </Modal>
             </Aux>
-        
-        ) 
+
+        )
     }
 }
 
+const mapStateToProps = state => {
+    return {
+      ingredients: state.ingredients.ingredients,
+      totalPrice: state.totalPrice.totalPrice
+    }
+}
 
-export default BurgerBuilder
+const mapDispatchToProps = dispatch => {
+    return {
+      increaseHandler: (ingrType) => dispatch({type: 'INCREASE', ingrType}),
+      decreaseHandler: (ingrType) => dispatch({type: 'DECREASE', ingrType}),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder)
