@@ -18,19 +18,20 @@ class BurgerBuilder extends Component {
         errorIngredients: false
     };
 
-// componentDidMount() {
-//     axios.get('/ingredients.json')
-//     .then(res => {
-//         const ingredients = res.data;
-//         console.log(ingredients)
-//         this.setState({ ingredients });
-//     })
-//     .catch(err => {
-//         this.setState({
-//             errorIngredients: err
-//         });
-//     });
-// }
+componentDidMount() {
+    axios.get('/ingredients.json')
+    .then(res => {
+        const ingredients = res.data;
+        // this.setState({ ingredients });
+        this.props.setIngredients(ingredients); //now handled through dispatch
+
+    })
+    .catch(err => {
+        this.setState({
+            errorIngredients: err
+        });
+    });
+}
 
 showOrderSummary = () => {
     this.setState({
@@ -65,7 +66,6 @@ continuePurchaseHandler = () => { //continue button of orderSummary
             modalContent = <p>Something went wrong {this.state.errorPurchase.message}</p>
         }
 
-        console.log("render of BurgerBuilder")
         return(
             <Aux>
             {this.state.errorIngredients && (
@@ -102,6 +102,7 @@ const mapDispatchToProps = dispatch => {
     return {
       increaseHandler: (ingrType) => dispatch({type: actionTypes.INCREASE, ingrType}),
       decreaseHandler: (ingrType) => dispatch({type: actionTypes.DECREASE, ingrType}),
+      setIngredients: (ingredients) => dispatch({type: actionTypes.SET_INGREDIENTS, ingredients}),
     }
 }
 
