@@ -1,3 +1,4 @@
+import * as actionTypes from '../actions/actionTypes'
  const INGREDIENTS_PRICES = {
     meat: 3,
     cheese: 1.5,
@@ -11,12 +12,12 @@ const totalPriceState = {
 const totalPriceReducer = (state = totalPriceState, action) => {
     const partialPrice = INGREDIENTS_PRICES[action.ingrType];
     switch(action.type) {
-        case 'INCREASE':
+        case actionTypes.INCREASE:
             return {
               ...state,
               totalPrice: state.totalPrice + partialPrice
             };
-        case 'DECREASE':
+        case actionTypes.DECREASE:
             return {
               ...state,
               totalPrice: state.totalPrice - partialPrice

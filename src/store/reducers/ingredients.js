@@ -1,3 +1,5 @@
+import * as actionTypes from '../actions/actionTypes'
+
 const ingrState = {
   ingredients: {
     meat: 0,
@@ -8,14 +10,14 @@ const ingrState = {
 };
 const ingrReducer = (state = ingrState, action) => {
       switch(action.type) {
-        case 'INCREASE':
+        case actionTypes.INCREASE:
             return {
               ingredients: {
                 ...state.ingredients,
                 [action.ingrType]: state.ingredients[action.ingrType] + 1
               }
             };
-        case 'DECREASE':
+        case actionTypes.DECREASE:
               return {
                 ingredients: {
                   ...state.ingredients,

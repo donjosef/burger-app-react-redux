@@ -8,6 +8,7 @@ import Backdrop from '../../components/Backdrop/Backdrop';
 import axios from '../../axios-orders'; //from the instance
 import Spinner from '../../components/Spinner/Spinner'
 import {connect} from 'react-redux';
+import * as actionTypes from '../../store/actions/actionTypes'
 
 class BurgerBuilder extends Component {
     state = {
@@ -99,8 +100,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-      increaseHandler: (ingrType) => dispatch({type: 'INCREASE', ingrType}),
-      decreaseHandler: (ingrType) => dispatch({type: 'DECREASE', ingrType}),
+      increaseHandler: (ingrType) => dispatch({type: actionTypes.INCREASE, ingrType}),
+      decreaseHandler: (ingrType) => dispatch({type: actionTypes.DECREASE, ingrType}),
     }
 }
 
