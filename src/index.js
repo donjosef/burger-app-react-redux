@@ -8,12 +8,14 @@ import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import { Provider } from 'react-redux';
 import ingrReducer from './store/reducers/ingredients';
 import totalPriceReducer from './store/reducers/totalPrice';
+import ordersReducer from './store/reducers/orders'
 import thunk from 'redux-thunk';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const reducer = combineReducers({
   ingredients: ingrReducer,
-  totalPrice: totalPriceReducer
+  totalPrice: totalPriceReducer,
+  orders: ordersReducer
 });
 const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
