@@ -19,6 +19,7 @@ class BurgerBuilder extends Component {
     };
 
 componentDidMount() {
+    this.props.reset();
     axios.get('/ingredients.json')
     .then(res => {
         const ingredients = res.data;
@@ -103,6 +104,7 @@ const mapDispatchToProps = dispatch => {
       increaseHandler: (ingrType) => dispatch({type: actionTypes.INCREASE, ingrType}),
       decreaseHandler: (ingrType) => dispatch({type: actionTypes.DECREASE, ingrType}),
       setIngredients: (ingredients) => dispatch({type: actionTypes.SET_INGREDIENTS, ingredients}),
+      reset: () => dispatch({type: actionTypes.RESET}),
     }
 }
 

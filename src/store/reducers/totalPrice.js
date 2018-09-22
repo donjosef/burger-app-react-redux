@@ -22,6 +22,11 @@ const totalPriceReducer = (state = totalPriceState, action) => {
               ...state,
               totalPrice: state.totalPrice - partialPrice
             };
+        case actionTypes.RESET:
+          return {
+            ...state,
+            totalPrice: 0
+          };
     }
     return state;
 };
