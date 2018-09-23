@@ -23,6 +23,7 @@ export const fetchOrdersInit = () => {
 
 export const fetchOrders = () => {
     return dispatch => {
+        dispatch(fetchOrdersInit()); //before start the async code, dispatch this sync which sets loading true
         axios.get('/orders.json')
         .then(res => {
             const orders = [];
