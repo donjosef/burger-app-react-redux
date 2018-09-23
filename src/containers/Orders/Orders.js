@@ -9,11 +9,18 @@ class Orders extends Component {
     this.props.fetchOrders() //now handled by redux thunk and action creators
   }
     render() {
-
+        let orders = this.props.orders.map(order => (
+          <Order
+              key={order.id}
+              ingredients={order.ingredients}
+              price={order.price}/>
+        ));
+        if(this.props.err) {
+          orders = <h2>Error occured while fetching the orders. Status {this.props.err.response.status}</h2>
+        }
         return (
             <div>
-                <Order />
-                <Order />
+              {orders}
             </div>
         );
     }
