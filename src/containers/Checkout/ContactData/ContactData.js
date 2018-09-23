@@ -68,6 +68,24 @@ class ContactData extends Component {
     }
 
     render() {
+        let validationPostal = null;
+        if(this.state.address.postalCode.length > 0 && this.state.address.postalCode.length < 5 ) {
+           validationPostal = <p>Postal code must be at least 5 characters</p>;
+        }
+        const {loadingOrder, ...formElementsData} = this.state;
+
+        const formElementsValues = [];
+        for(let key in formElementsData) {
+            if(typeof formElementsData[key] === "object") {
+                for(let addressKey in formElementsData[key]) {
+                    formElementsValues.push(formElementsData[key][addressKey]);
+                }
+            } else {
+                formElementsValues.push(formElementsData[key]);
+            }
+        }
+        console.log(formElementsValues)
+        const allElementsFilled = formElementsValues.every(value => value.length > 0); //true or false
         let form = (
             <form>
                 <input
@@ -96,7 +114,13 @@ class ContactData extends Component {
                     value={this.state.address.postalCode}
                     onChange={this.inputChangeHandler}
                 />
+                {validationPostal}
+
+               {allElementsFilled && !validationPostal ? (
                 <Button type="SubmitOrder" clicked={this.orderingBurgerHandler}>ORDER</Button>
+               ) : (
+                <p style={{color: "#944317", fontWeight: "bold"}}>Please complete all the fields to make an order</p>
+               )}
             </form>
         );
         if(this.state.loadingOrder) {
