@@ -22,7 +22,7 @@ const ordersReducer = (state = ordersState, action) => {
           return {
             ...state,
             loading: false,
-            ordersErr: action.err
+            ordersErr: action.error
           }
         default:
           return state;
