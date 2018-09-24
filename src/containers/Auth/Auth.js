@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { auth } from '../../store/actions/auth';
 import Button from '../../components/Button/Button';
+import Spinner from '../../components/Spinner/Spinner';
 import classes from './Auth.css'
 
 class Auth extends Component {
@@ -32,6 +33,7 @@ class Auth extends Component {
         signUp: !prevState.signUp
       }));
     }
+
     render() {
       let btn = <Button type='Success'>LOGIN</Button>;
       if(this.state.signUp) {
@@ -60,26 +62,32 @@ class Auth extends Component {
         )
       }
 
+      let form = (
+        <form onSubmit={this.submitHandler}>
+          <input
+              value={this.state.email}
+              onChange={this.inputHandler}
+              name='email'
+              type='email'
+              placeholder='Email'/>
+          <input
+              value={this.state.pass}
+              onChange={this.inputHandler}
+              name='password'
+              type='password'
+              placeholder='Password'/>
+          {btn}
+       </form>
+      )
+      if(this.props.loading) {
+        form = <Spinner />
+      }
+
 
       return (
           <div className={classes.Auth}>
             <h2>{this.state.signUp ? 'Sign up' : 'Log in'}</h2>
-            <form onSubmit={this.submitHandler}>
-              <input
-                  value={this.state.email}
-                  onChange={this.inputHandler}
-                  name='email'
-                  type='email'
-                  placeholder='Email'/>
-              <input
-                  value={this.state.pass}
-                  onChange={this.inputHandler}
-                  name='password'
-                  type='password'
-                  placeholder='Password'/>
-            {btn}
-
-            </form>
+            {form}
             <Button type='Danger' clicked={this.toggleSignUpHandler}>{this.state.signUp ? 'SWITCH TO LOGIN' : 'SWITCH TO SIGN UP'}</Button>
           </div>
 
@@ -87,10 +95,15 @@ class Auth extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+      loading: state.auth.loading
+    }
+}
 
 const mapDispatchToProps = dispatch => {
     return {
       onAuth: (email, password, isSignUp) => dispatch(auth(email, password, isSignUp))
     }
 }
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
