@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { auth } from '../../store/actions/auth';
 import Button from '../../components/Button/Button';
 import classes from './Auth.css'
 
@@ -18,6 +20,11 @@ class Auth extends Component {
               this.setState({ pass: e.target.value})
         }
     }
+
+    submitHandler = (e) => {
+      e.preventDefault();
+      this.props.onAuth(this.state.email, this.state.pass);
+    }
     render() {
       let validationPass = null;
       let isEmailValid;
@@ -28,13 +35,13 @@ class Auth extends Component {
       } else {
         isEmailValid = false;
       }
-      if(this.state.pass.length > 0 && this.state.pass.length < 6 ) {
+      if(this.state.pass.length < 6 ) {
          validationPass = <p>Password must be at least 6 characters</p>;
       }
 
       return (
           <div className={classes.Auth}>
-            <form>
+            <form onSubmit={this.submitHandler}>
               <input
                   value={this.state.email}
                   onChange={this.inputHandler}
@@ -62,4 +69,10 @@ class Auth extends Component {
     }
 }
 
-export default Auth;
+
+const mapDispatchToProps = dispatch => {
+    return {
+      onAuth: (email, password) => dispatch(auth(email, password))
+    }
+}
+export default connect(null, mapDispatchToProps)(Auth);
