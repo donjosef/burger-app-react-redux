@@ -8,7 +8,8 @@ class Auth extends Component {
 
     state = {
       email: '',
-      pass: ''
+      pass: '',
+      signUp: true
     }
 
     inputHandler = (e) => {
@@ -23,24 +24,46 @@ class Auth extends Component {
 
     submitHandler = (e) => {
       e.preventDefault();
-      this.props.onAuth(this.state.email, this.state.pass);
+      this.props.onAuth(this.state.email, this.state.pass, this.state.signUp);
+    }
+
+    toggleSignUpHandler = () => {
+      this.setState(prevState => ({
+        signUp: !prevState.signUp
+      }));
     }
     render() {
-      let validationPass = null;
-      let isEmailValid;
-      const regx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      let btn = <Button type='Success'>LOGIN</Button>;
+      if(this.state.signUp) {
+        let validationPass = null;
+        let isEmailValid;
+        const regx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-      if(regx.test(this.state.email)) {
-        isEmailValid = true;
-      } else {
-        isEmailValid = false;
+        if(regx.test(this.state.email)) {
+          isEmailValid = true;
+        } else {
+          isEmailValid = false;
+        }
+        if(this.state.pass.length < 6 ) {
+           validationPass = <p>Password must be at least 6 characters</p>;
+        }
+
+        btn = (
+          <div>
+              {validationPass}
+              {isEmailValid && !validationPass ? (
+               <Button type="Success">SIGN UP</Button>
+              ) : (
+               <p style={{color: "#944317", fontWeight: "bold"}}>Enter a valid email and password</p>
+              )}
+          </div>
+        )
       }
-      if(this.state.pass.length < 6 ) {
-         validationPass = <p>Password must be at least 6 characters</p>;
-      }
+
 
       return (
           <div className={classes.Auth}>
+            <h2>{this.state.signUp ? 'Sign up' : 'Log in'}</h2>
             <form onSubmit={this.submitHandler}>
               <input
                   value={this.state.email}
@@ -54,15 +77,10 @@ class Auth extends Component {
                   name='password'
                   type='password'
                   placeholder='Password'/>
-              {validationPass}
-              {isEmailValid && !validationPass ? (
-               <Button type="Success">SUBMIT</Button>
-              ) : (
-               <p style={{color: "#944317", fontWeight: "bold"}}>Enter a valid email and password</p>
-              )}
+            {btn}
 
             </form>
-
+            <Button type='Danger' clicked={this.toggleSignUpHandler}>{this.state.signUp ? 'SWITCH TO LOGIN' : 'SWITCH TO SIGN UP'}</Button>
           </div>
 
       )
@@ -72,7 +90,7 @@ class Auth extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-      onAuth: (email, password) => dispatch(auth(email, password))
+      onAuth: (email, password, isSignUp) => dispatch(auth(email, password, isSignUp))
     }
 }
 export default connect(null, mapDispatchToProps)(Auth);
