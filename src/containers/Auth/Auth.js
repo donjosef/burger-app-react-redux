@@ -83,10 +83,17 @@ class Auth extends Component {
         form = <Spinner />
       }
 
+      let errMessage = null;
+      if(this.props.error) {
+         errMessage = <p>{this.props.error.response.data.error.message}</p>
+      }
+
 
       return (
           <div className={classes.Auth}>
             <h2>{this.state.signUp ? 'Sign up' : 'Log in'}</h2>
+            {errMessage}
+
             {form}
             <Button type='Danger' clicked={this.toggleSignUpHandler}>{this.state.signUp ? 'SWITCH TO LOGIN' : 'SWITCH TO SIGN UP'}</Button>
           </div>
@@ -97,7 +104,8 @@ class Auth extends Component {
 
 const mapStateToProps = state => {
     return {
-      loading: state.auth.loading
+      loading: state.auth.loading,
+      error: state.auth.error
     }
 }
 
