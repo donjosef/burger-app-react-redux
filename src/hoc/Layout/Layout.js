@@ -3,37 +3,42 @@ import Aux from '../Auxiliary/Auxiliary'
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar'
 import classes from './Layout.css'
 import SideBar from '../../components/Navigation/SideBar/SideBar'
+import { connect } from 'react-redux';
 
 class Layout extends Component {
-    
+
     state = {
         showSideBar: false
     }
-    
+
     openSideBarHandler = () => {
        this.setState({
            showSideBar: true
-       }) 
+       })
     }
-    
+
     closeSideBarHandler = () => {
         this.setState({showSideBar: false})
     }
-    
+
     render() {
         console.log("render of Layout Component")
         return (
             <Aux>
-                <Toolbar openSideBar={this.openSideBarHandler}/>
-                <SideBar open={this.state.showSideBar} close={this.closeSideBarHandler}/>
+                <Toolbar loggedIn={this.props.loggedIn} openSideBar={this.openSideBarHandler}/>
+                <SideBar loggedIn={this.props.loggedIn} open={this.state.showSideBar} close={this.closeSideBarHandler}/>
                 <main className={classes.content}>
                     {this.props.children}
                 </main>
             </Aux>
         )
     }
-    
+
 }
-    
-    
-export default Layout;
+
+const mapStateToProps = state => {
+    return {
+      loggedIn: state.auth.token !== null
+    }
+}
+export default connect(mapStateToProps)(Layout);
