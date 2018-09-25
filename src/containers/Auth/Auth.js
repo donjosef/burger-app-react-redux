@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { auth } from '../../store/actions/auth';
 import Button from '../../components/Button/Button';
 import Spinner from '../../components/Spinner/Spinner';
+import { Redirect } from 'react-router-dom';
 import classes from './Auth.css'
 
 class Auth extends Component {
@@ -87,13 +88,18 @@ class Auth extends Component {
       if(this.props.error) {
          errMessage = <p>{this.props.error.response.data.error.message}</p>
       }
+      let redirect = null;
+      if(this.props.loggedIn) {
+          redirect = <Redirect to='/'/>
+      }
 
 
       return (
           <div className={classes.Auth}>
+          {redirect}
+
             <h2>{this.state.signUp ? 'Sign up' : 'Log in'}</h2>
             {errMessage}
-
             {form}
             <Button type='Danger' clicked={this.toggleSignUpHandler}>{this.state.signUp ? 'SWITCH TO LOGIN' : 'SWITCH TO SIGN UP'}</Button>
           </div>
@@ -105,7 +111,8 @@ class Auth extends Component {
 const mapStateToProps = state => {
     return {
       loading: state.auth.loading,
-      error: state.auth.error
+      error: state.auth.error,
+      loggedIn: state.auth.token != null
     }
 }
 
