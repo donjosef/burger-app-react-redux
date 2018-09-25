@@ -13,7 +13,7 @@ const navigationItems = props => {
     return (
         <ul className={dynamicClasses.join(" ")}>
             <NavigationItem link="/">Burger Builder</NavigationItem>
-            <NavigationItem link="/orders">Orders</NavigationItem>
+            {props.loggedIn && <NavigationItem link="/orders">Orders</NavigationItem>}
             {props.loggedIn ? <NavigationItem link="/logout">Logout</NavigationItem> : (
               <NavigationItem link="/auth">Authenticate</NavigationItem>
             )}
