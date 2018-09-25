@@ -15,6 +15,7 @@ class ContactData extends Component {
             postalCode: ''
         },
         loadingOrder: false,
+        error: false
     }
 
     inputChangeHandler = (e) => {
@@ -43,7 +44,7 @@ class ContactData extends Component {
 
     orderingBurgerHandler = (e) => {
         e.preventDefault();
-        const {loadingOrder, ...customer} = this.state;
+        const {loadingOrder, error, ...customer} = this.state; //destructuring
         this.setState({loadingOrder: true});
         const order = {
             ingredients: this.props.ings, //retrieved by redux store
@@ -52,7 +53,7 @@ class ContactData extends Component {
         };
 
 
-        axios.post('/orders.json', order)
+        axios.post('/orders.json?auth=' + this.props.token, order)
             .then(response => {
                 this.setState({
                     loadingOrder: false,
@@ -62,6 +63,7 @@ class ContactData extends Component {
             .catch(err => {
                 this.setState({
                     loadingOrder: false,
+                    error: err  //catch any error relative to authentication
                 });
             }) //firebase uses a mongoDB like structure. We dont have tables, we have kind of json like nested structure. If we make a request to /orders, it will create a node and stores our orders beneath that node
 
@@ -72,7 +74,7 @@ class ContactData extends Component {
         if(this.state.address.postalCode.length > 0 && this.state.address.postalCode.length < 5 ) {
            validationPostal = <p>Postal code must be at least 5 characters</p>;
         }
-        const {loadingOrder, ...formElementsData} = this.state;
+        const {loadingOrder, error, ...formElementsData} = this.state;
 
         const formElementsValues = [];
         for(let key in formElementsData) {
@@ -126,9 +128,17 @@ class ContactData extends Component {
         if(this.state.loadingOrder) {
             form = <Spinner />;
         }
+        let authError = null;
+        if(this.state.error) {
+          if(this.state.error.response.status === 401) {
+            authError = <p style={{color: 'red'}}>Unauthorized to make an order. Please Log in</p>
+          }
+        }
+
         return (
             <div className={classes.ContactData}>
                 <h4>Enter your contact data</h4>
+                {authError}
                 {form}
             </div>
         );
@@ -137,7 +147,8 @@ class ContactData extends Component {
 
 const mapStateToProps = state => ({
   ings: state.ingredients.ingredients,
-  price: state.totalPrice.totalPrice
+  price: state.totalPrice.totalPrice,
+  token: state.auth.token
 });
 
 export default connect(mapStateToProps)(ContactData);
