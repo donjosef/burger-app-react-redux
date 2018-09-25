@@ -4,6 +4,7 @@ import Toolbar from '../../components/Navigation/Toolbar/Toolbar'
 import classes from './Layout.css'
 import SideBar from '../../components/Navigation/SideBar/SideBar'
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 class Layout extends Component {
 
@@ -41,4 +42,4 @@ const mapStateToProps = state => {
       loggedIn: state.auth.token !== null
     }
 }
-export default connect(mapStateToProps)(Layout);
+export default withRouter(connect(mapStateToProps)(Layout));
