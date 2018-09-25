@@ -4,7 +4,6 @@ import classes from './NavigationItems.css';
 
 const navigationItems = props => {
     let dynamicClasses = [];
-
     if(props.type === "Mobile") {
         dynamicClasses.push(classes.Mobile)
     } else {
@@ -15,7 +14,10 @@ const navigationItems = props => {
         <ul className={dynamicClasses.join(" ")}>
             <NavigationItem link="/">Burger Builder</NavigationItem>
             <NavigationItem link="/orders">Orders</NavigationItem>
-            <NavigationItem link="/auth">Authenticate</NavigationItem>
+            {props.loggedIn ? <NavigationItem link="/logout">Logout</NavigationItem> : (
+              <NavigationItem link="/auth">Authenticate</NavigationItem>
+            )}
+
         </ul>
     )
 
