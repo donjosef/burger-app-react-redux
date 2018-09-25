@@ -16,7 +16,8 @@ const ordersReducer = (state = ordersState, action) => {
           return {
             ...state,
             orders: action.orders,
-            loading: false
+            loading: false,
+            ordersErr: false
           };
         case actionTypes.FETCH_ORDERS_FAIL:
           return {
