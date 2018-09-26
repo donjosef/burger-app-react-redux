@@ -49,7 +49,8 @@ class ContactData extends Component {
         const order = {
             ingredients: this.props.ings, //retrieved by redux store
             price: this.props.price,//retrieved by reudx store
-            customer
+            customer,
+            userId: this.props.userId
         };
 
 
@@ -148,7 +149,8 @@ class ContactData extends Component {
 const mapStateToProps = state => ({
   ings: state.ingredients.ingredients,
   price: state.totalPrice.totalPrice,
-  token: state.auth.token
+  token: state.auth.token,
+  userId: state.auth.userId
 });
 
 export default connect(mapStateToProps)(ContactData);
