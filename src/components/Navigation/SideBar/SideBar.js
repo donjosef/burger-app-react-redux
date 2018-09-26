@@ -10,16 +10,16 @@ const sidebar = props => {
     if(props.open) {
         dynamicClasses = [classes.SideBar, classes.Open];
     }
-    
+
     return (
         <Aux>
             <Backdrop show={props.open} clicked={props.close}/>
             <div className={dynamicClasses.join(" ")}>
                 <Logo />
                 <nav>
-                    <NavigationItems type="Mobile"/>
+                    <NavigationItems loggedIn={props.loggedIn} type="Mobile"/>
                 </nav>
-                
+
             </div>
         </Aux>
     );
