@@ -21,10 +21,11 @@ export const fetchOrdersInit = () => {
     }
 }
 
-export const fetchOrders = (token) => {
+export const fetchOrders = (token, userId) => {
     return dispatch => {
         dispatch(fetchOrdersInit()); //before start the async code, dispatch this sync which sets loading true
-        axios.get('/orders.json?auth=' + token)
+        const queryParams = `?auth=${token}&orderBy="userId"&equalTo="${userId}"`
+        axios.get('/orders.json' + queryParams) //get only orders that have a specific userId for that particular user
         .then(res => {
             const orders = [];
             for(let key in res.data) {
