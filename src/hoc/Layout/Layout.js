@@ -3,6 +3,7 @@ import Aux from '../Auxiliary/Auxiliary'
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar'
 import classes from './Layout.css'
 import SideBar from '../../components/Navigation/SideBar/SideBar'
+import { authSuccess } from '../../store/actions/auth';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -10,6 +11,22 @@ class Layout extends Component {
 
     state = {
         showSideBar: false
+    }
+
+    componentDidMount() {
+      if(!this.isStorageEmpty()) {
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('userId');
+        this.props.onSetAuthState(token, userId);
+      }
+    }
+
+    isStorageEmpty = () => {
+      if(localStorage.getItem('token')) {
+        return false;
+      } else {
+        return true;
+      }
     }
 
     openSideBarHandler = () => {
@@ -26,8 +43,8 @@ class Layout extends Component {
         console.log("render of Layout Component")
         return (
             <Aux>
-                <Toolbar loggedIn={this.props.loggedIn} openSideBar={this.openSideBarHandler}/>
-                <SideBar loggedIn={this.props.loggedIn} open={this.state.showSideBar} close={this.closeSideBarHandler}/>
+                <Toolbar loggedIn={this.props.loggedIn || !this.isStorageEmpty()} openSideBar={this.openSideBarHandler}/>
+                <SideBar loggedIn={this.props.loggedIn || !this.isStorageEmpty()} open={this.state.showSideBar} close={this.closeSideBarHandler}/>
                 <main className={classes.content}>
                     {this.props.children}
                 </main>
@@ -42,4 +59,10 @@ const mapStateToProps = state => {
       loggedIn: state.auth.token !== null
     }
 }
-export default withRouter(connect(mapStateToProps)(Layout));
+
+const mapDispatchToProps = dispatch => {
+    return {
+      onSetAuthState: (token, userId) => dispatch(authSuccess(token, userId))
+    }
+}
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout));
