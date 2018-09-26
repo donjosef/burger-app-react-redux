@@ -6,8 +6,12 @@ import { connect } from 'react-redux';
 
 class Orders extends Component {
 
-  componentDidMount() {
-    this.props.fetchOrders(this.props.token) //now handled by redux thunk and action creators
+  componentDidMount() { //if user refresh the page the token on the state is lost. So get it from localStorage instead
+    if(localStorage.getItem('token')) {
+      this.props.fetchOrders(localStorage.getItem('token'))
+    } else {
+      this.props.fetchOrders(this.props.token)//now handled by redux thunk and action creators
+    }
   }
     render() {
         let orders = <Spinner />;
