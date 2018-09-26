@@ -8,9 +8,9 @@ class Orders extends Component {
 
   componentDidMount() { //if user refresh the page the token on the state is lost. So get it from localStorage instead
     if(localStorage.getItem('token')) {
-      this.props.fetchOrders(localStorage.getItem('token'))
+      this.props.fetchOrders(localStorage.getItem('token'), localStorage.getItem('userId'))
     } else {
-      this.props.fetchOrders(this.props.token)//now handled by redux thunk and action creators
+      this.props.fetchOrders(this.props.token, this.props.userId)//now handled by redux thunk and action creators
     }
   }
     render() {
@@ -40,13 +40,14 @@ const mapStateToProps = state => {
     orders: state.orders.orders,
     loading: state.orders.loading,
     err: state.orders.ordersErr,
-    token: state.auth.token
+    token: state.auth.token,
+    userId: state.auth.userId
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOrders: (token) => dispatch(fetchOrders(token))
+    fetchOrders: (token, userId) => dispatch(fetchOrders(token, userId))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Orders);
