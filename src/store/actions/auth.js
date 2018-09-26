@@ -25,7 +25,6 @@ export const authFail = (err) => {
 
 export const logout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('expirationDate');
     localStorage.removeItem('userId');
     return {
       type: actionTypes.AUTH_LOGOUT
@@ -64,9 +63,7 @@ export const auth = (email, password, isSignUp) => {
       } else { //make a request for login
         axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyBBduZPCZqNjJE6Oq88-ycGsh7rO92MKv0', authData)
         .then(res => {
-          const expirationDate = new Date(Date.now() + res.data.expiresIn * 1000);
           localStorage.setItem('token', res.data.idToken); //when succesfully loggedIn setItem on localstorage
-          localStorage.setItem('expirationDate', expirationDate);
           localStorage.setItem('userId', res.data.localId);
           dispatch(authSuccess(res.data.idToken, res.data.localId))
           dispatch(checkAuthTimeout(res.data.expiresIn))
