@@ -57,6 +57,8 @@ export const auth = (email, password, isSignUp) => {
       if(isSignUp) { //make a reguest for signUp
           axios.post(`https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${FIREBASE_KEY}`, authData)
           .then(res => {
+            localStorage.setItem('token', res.data.idToken); //when succesfully signed up setItem on localstorage
+            localStorage.setItem('userId', res.data.localId);
             dispatch(authSuccess(res.data.idToken, res.data.localId));
             dispatch(checkAuthTimeout(res.data.expiresIn))
           })
