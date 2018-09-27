@@ -1,6 +1,9 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
+const dotenv = require('dotenv').config();
+const FIREBASE_KEY = `${process.env.REACT_APP_FIREBASE_KEY}`;
+
 export const authInit = () => {
     return {
       type: actionTypes.AUTH_INIT
@@ -52,7 +55,7 @@ export const auth = (email, password, isSignUp) => {
       };
 
       if(isSignUp) { //make a reguest for signUp
-          axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyBBduZPCZqNjJE6Oq88-ycGsh7rO92MKv0', authData)
+          axios.post(`https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${FIREBASE_KEY}`, authData)
           .then(res => {
             dispatch(authSuccess(res.data.idToken, res.data.localId));
             dispatch(checkAuthTimeout(res.data.expiresIn))
@@ -61,7 +64,7 @@ export const auth = (email, password, isSignUp) => {
             dispatch(authFail(err))
           })
       } else { //make a request for login
-        axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyBBduZPCZqNjJE6Oq88-ycGsh7rO92MKv0', authData)
+        axios.post(`https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${FIREBASE_KEY}`, authData)
         .then(res => {
           localStorage.setItem('token', res.data.idToken); //when succesfully loggedIn setItem on localstorage
           localStorage.setItem('userId', res.data.localId);
