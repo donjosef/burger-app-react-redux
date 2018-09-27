@@ -17,7 +17,7 @@ const sidebar = props => {
             <div className={dynamicClasses.join(" ")}>
                 <Logo />
                 <nav>
-                    <NavigationItems loggedIn={props.loggedIn} type="Mobile"/>
+                    <NavigationItems closeSideBar={props.close} loggedIn={props.loggedIn} type="Mobile"/>
                 </nav>
 
             </div>

@@ -12,10 +12,10 @@ const navigationItems = props => {
 
     return (
         <ul className={dynamicClasses.join(" ")}>
-            <NavigationItem link="/">Burger Builder</NavigationItem>
-            {props.loggedIn && <NavigationItem link="/orders">Orders</NavigationItem>}
-            {props.loggedIn ? <NavigationItem link="/logout">Logout</NavigationItem> : (
-              <NavigationItem link="/auth">Authenticate</NavigationItem>
+            <NavigationItem link="/" closeSideBar={props.closeSideBar}>Burger Builder</NavigationItem>
+            {props.loggedIn && <NavigationItem link="/orders" closeSideBar={props.closeSideBar}>Orders</NavigationItem>}
+            {props.loggedIn ? <NavigationItem link="/logout" closeSideBar={props.closeSideBar}>Logout</NavigationItem> : (
+              <NavigationItem link="/auth" closeSideBar={props.closeSideBar}>Authenticate</NavigationItem>
             )}
 
         </ul>
