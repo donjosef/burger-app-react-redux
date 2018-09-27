@@ -4,7 +4,7 @@
     display: flex; /*for centering the a tag inside*/
     height: 100%;
     align-items: center;
-    
+
 }
 
 .NavigationItem a {
@@ -29,16 +29,17 @@
         margin-top: 20px;
         display: block;
     }
-    
+
     .NavigationItem a {
         border-bottom: none;
     }
-    
+
     .NavigationItem a:hover,
     .NavigationItem a:active,
-    .NavigationItem a.active {
+    .NavigationItem a.active,
+    .NavigationItem a:focus {
         background-color: #CF8F2F;
         border-bottom: none;
-        color: 
     }
+    
 }
