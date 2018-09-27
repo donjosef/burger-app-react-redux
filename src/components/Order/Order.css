@@ -1,14 +1,59 @@
 .Order {
-    width: 100%;
-    border: 1px solid #eee;
+    width: 80%;
+    border: 1px solid #aaa;
+    border-radius: 3px;
     box-shadow: 0 2px 3px #ccc;
-    padding: 10px;
-    margin: 10px auto;
+    margin: 15px auto;
     box-sizing: border-box;
 }
 
-@media (min-width: 600px) {
+.Ingr,
+.Price {
+  padding: 0 10px;
+}
+
+.Date {
+  background: #B5EF8A;
+  text-transform: uppercase;
+  border-bottom: 1px solid #aaa;
+  box-shadow: inset 0 1px 0 #fff;
+  text-shadow: 1px 1px 0 #fff;
+  text-align: center;
+}
+
+.Date span {
+  margin-right: 8px;
+}
+
+@media (min-width: 630px) {
     .Order {
         width: 600px;
+        display: flex;
+        justify-content: space-between;
     }
+
+    .Date {
+      border-right: 1px solid #aaa;
+      border-bottom: none;
+      text-align: center;
+      width: 20%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .Date span {
+      margin: 0;
+    }
+
+    .Ingr {
+      width: 60%;
+      padding: 0;
+    }
+
+    .Price {
+      width: 15%;
+      padding: 0;
+    }
+
 }

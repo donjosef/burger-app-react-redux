@@ -21,7 +21,8 @@ class Orders extends Component {
               <Order
                   key={order.id}
                   ingredients={order.ingredients}
-                  price={order.price}/>
+                  price={order.price}
+                  purchaseDate={order.date}/>
             ));
         }
         if(this.props.err) {
