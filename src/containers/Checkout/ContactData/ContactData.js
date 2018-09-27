@@ -50,7 +50,8 @@ class ContactData extends Component {
             ingredients: this.props.ings, //retrieved by redux store
             price: this.props.price,//retrieved by reudx store
             customer,
-            userId: this.props.userId
+            userId: this.props.userId,
+            date: new Date()
         };
 
 
