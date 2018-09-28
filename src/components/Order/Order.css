@@ -3,8 +3,9 @@
     border: 1px solid #aaa;
     border-radius: 3px;
     box-shadow: 0 2px 3px #ccc;
-    margin: 15px auto;
+    margin: 0 auto 15px;
     box-sizing: border-box;
+    background: #fff;
 }
 
 .Ingr,
